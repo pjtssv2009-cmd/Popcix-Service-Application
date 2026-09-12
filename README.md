@@ -1,214 +1,93 @@
-# POPCIX — Gamified Home-Services Customer Mobile Application
+# POPCIX PRO — Professional Mobile Application
 
-<p align="center">
-  <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&auto=format&fit=crop&q=80" alt="POPCIX" width="600" style="border-radius: 24px;" />
-</p>
-
-> **"Your Home. Your Services. Your POPCIX."**  
-> Everything your home needs — with the speed of an instant marketplace and the engaging, level-and-rewards-driven progression of modern consumer tech.
+> **"Work. Earn. Grow."** — The gamified, professional-side mobile application for verified technicians and home-service specialists on the POPCIX Marketplace.
 
 ---
 
-## 🌟 Key Highlights & Architecture
+## 📱 Executive Overview
 
-- **Visual Identity**: Premium Light mode only (`#F8F8F5` background, `#FFFFFF` surface, `#000000` primary buttons, `#111111` text, energetic vibrant accents, rounded soft UI, custom original vector mascots & badges).
-- **Authentication**: Official **Supabase Auth SDK** integration (Email/Password, Google OAuth, Session persistence, Password resets). Zero custom password storage, zero custom JWTs, zero sensitive credential logging.
-- **Gamification Engine**: Player XP, Level progression (`Home Hero Level 4`, etc.), 7-Day Care Streaks, Badges Showcase, Active Quests & Challenges, and Points Redemption Store.
-- **Marketplace & 14+ Service Categories**: Cleaning, AC Services, Electrician, Plumber, Carpenter, Appliance Repair, Pest Control, Painting, Beauty, Car Cleaning, Laundry, Moving, Home Maintenance, and Other Services.
-- **8-Step Minimal Booking Flow**: Service selection -> Add-ons & Service Stacking -> Saved Address -> Booking Type (Instant, Scheduled, Recurring) -> Time Slot -> Price & Coupon Review -> Secured Payment -> Confirmation Celebration.
-- **Service Stacking**: Automatic bundle discounts when stacking complementary services (e.g. Full House Deep Clean + Balcony Wash).
-- **Live Booking Tracking**: Visual map tracking with 6-stage step-by-step progress timeline and interactive live status simulator.
-- **POPCIX HomeCare Subscriptions**: Basic, Plus, and Premium VIP tiers with included quarterly visits and discount perks.
-- **AI Home Assistant ("POPCIX Sparky")**: Natural language diagnostic assistant for troubleshooting home issues ("AC not cooling", "Party preparation") and 1-tap service recommendations.
-- **Database & Security**: 22 PostgreSQL/Supabase tables with strict Row Level Security (RLS) policies and server-side rate limiting middleware (10 req/IP/min with progressive backoff delay).
+**POPCIX PRO** is the official service-provider mobile application for the POPCIX marketplace platform. Built with a high-contrast, energetic, light-mode design language and gamified progression engine (XP, 6-day streak 🔥, AC HERO levels, badges, milestones, and redeemable perks), it empowers service professionals to manage their schedule, accept nearby jobs, navigate to customers, execute step-by-step verified service checklists, propose customer-approved add-ons, and track real-time earnings with transparent payouts.
 
 ---
 
-## 🚀 Quick Start & Installation
+## 🌟 Key Capabilities & Features
 
-### 1. Prerequisites
-- Node.js (v18.x, v20.x, or v22+)
-- npm / yarn / pnpm
+### 1. Verification & 10-Step KYC Wizard
+- **Mobile Number OTP**: Verified via Supabase Auth
+- **Basic Profile**: Name, Photo, Gender, Language
+- **Operating Hub & City**: Targeted zones (OMR, Sholinganallur, Perungudi, Velachery, Medavakkam)
+- **Trade Categories**: AC Technician, Electrician, Plumber, Carpenter, Cleaner, Pest Control, Appliance Specialist, Painter, Beauty Pro
+- **Skills & Experience**: Multi-select trade credentials and years in field
+- **Official KYC Documents**: Aadhaar/Voter ID, PAN Card, HVAC trade certificate
+- **Bank & UPI Settlement**: Masked account validation for automated Friday payouts
+- **Safety Training & Status Review**: KYC Pending, Under Review, Approved, or Action Required
 
-### 2. Install Dependencies
+### 2. Job Radar & 14-Step Service Journey
+1. **Radar Dispatch Alert**: Real-time incoming job notification with countdown timer and instant Accept / Decline
+2. **Detailed Booking Specifications**: Customer first name, rating (⭐ 4.9), approximate distance, and service duration
+3. **Status: CONFIRMED**: Reveals full customer address, special instructions, and directions
+4. **GPS Navigation**: Live route simulation, turn-by-turn distance, and ETA
+5. **Doorstep Arrival**: Validates location pin
+6. **Customer Start OTP Verification**: 4-digit security code (Demo: `4829` or `0000`)
+7. **Service In-Progress & Checklist**: Check off required steps (e.g. AC Deep Cleaning: Power off, Inspect filters, Foam jet wash, Clean outdoor condenser, Flush drain, Test cooling temperature)
+8. **Chargeable Add-on Request**: Professional proposes add-on with price & reason; customer receives digital approval request (cannot silently alter bill)
+9. **Before & After Photos**: Image capture linked to booking
+10. **In-App Masked Communication**: Quick responses (*"I'm arriving in 10 mins"*, *"I'm at the entrance"*) and masked dialer
+11. **Customer Completion OTP**: 4-digit sign-off code (Demo: `7193` or `0000`)
+12. **Instant Settlement & Celebration**: Net earnings credited to available balance + XP celebration
+
+### 3. Transparent Earnings & Payout Ledger
+- **Overview**: Today (₹2,450), This Week (₹13,800), This Month (₹52,400), Lifetime (₹8,42,600)
+- **Itemized Breakdown**: Base earnings, Add-ons, Bonuses, Customer Tips (100% to Pro), Platform fee, Net payout
+- **Settlement**: Automated Friday bank transfer with IMPS reference ID tracking and downloadable PDF statement
+
+### 4. Gamification & Growth Hub
+- **Tier Levels**: Starter → Rising Pro → Skilled Pro → Expert Pro → Elite Pro → **AC HERO (Level 8)**
+- **Streak Tracker**: 6-day active flame streak (+50 XP/day bonus)
+- **Badges & Milestones**: First Job, 100 Five-Star Reviews, 7-Day Streak, 50 Fast Completions, 1,000 Jobs Legend, 100 Repeat Customers
+- **Weekly Target**: 23/30 jobs completed towards +₹1,000 bonus
+- **Privacy-First Leaderboard**: XP ranking with one-tap opt-in / opt-out
+
+### 5. Sparky Pro AI Assistant & Safety Center
+- **Sparky Pro AI**: Generates customer quote explanations in plain English, appliance troubleshooting steps, and authorized earnings summaries
+- **Safety Center**: 1-Tap Emergency SOS dispatch with live GPS broadcast, direct 24/7 hotlines, and safety incident reporting
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+- **Frontend**: React 19 + TypeScript + Vite + TailwindCSS (Strict Light Mode)
+- **Native Platform**: Capacitor 8 (Status Bar, Splash Screen, Haptics, Geolocation, Camera, Local Notifications, Hardware Back Button, Network)
+- **Authentication**: Supabase Auth (OTP / Password / OAuth / Persistent Sessions)
+- **Database**: PostgreSQL with 18 dedicated professional tables and strict Row Level Security (RLS) policies
+- **Rate Limiting**: Reusable rate-limiter middleware protecting Auth, OTP, Referrals, and Job Actions
+
+---
+
+## 🚀 Building & Running Locally
+
+### Development Server
 ```bash
 npm install
-```
-
-### 3. Environment Configuration
-Copy `.env.example` to `.env`:
-```bash
-cp .env.example .env
-```
-
-Set the following variables in `.env`:
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `EXPO_PUBLIC_SUPABASE_URL` | Your Supabase project URL | `https://xyzproject.supabase.co` |
-| `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase Anon/Public API Key | `eyJhbGciOi...` |
-| `UPSTASH_REDIS_REST_URL` | Upstash/Redis REST URL (for server rate limiter) | `https://xxx.upstash.io` |
-| `UPSTASH_REDIS_REST_TOKEN` | Upstash/Redis token | `AXxxxx...` |
-
-*(Note: If Supabase keys are not set, POPCIX automatically boots in Offline Demo Mode for testing).*
-
----
-
-## 🗄️ Database Setup & Migrations (Supabase / PostgreSQL)
-
-1. Open your **Supabase Dashboard** -> **SQL Editor**.
-2. Run the SQL files in the following order:
-   - [`supabase/schema.sql`](supabase/schema.sql) — Creates all 22 database tables with foreign keys and indexes.
-   - [`supabase/rls.sql`](supabase/rls.sql) — Enables Row Level Security (RLS) ensuring strict customer data isolation.
-   - [`supabase/seed.sql`](supabase/seed.sql) — Populates default service categories, pros, achievements, rewards, and coupons.
-
----
-
-## 🔐 Google OAuth Configuration (Supabase Auth)
-
-1. In the **Google Cloud Console**, create an OAuth 2.0 Client ID (Web Application).
-2. Set Authorized Redirect URIs to: `https://<your-supabase-project-id>.supabase.co/auth/v1/callback`
-3. In **Supabase Dashboard** -> **Authentication** -> **Providers** -> **Google**:
-   - Enable Google
-   - Paste Client ID and Client Secret
-   - Save configuration
-
----
-
-## 💻 Running the Development Server
-
-### Run in Interactive Web Preview:
-```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to explore the mobile application with device frame toggle (iPhone / Android / Full Width).
 
----
-
-## 📱 Running on Native Android & iOS
-
-### Run on Android (Device or Emulator):
-```bash
-npx expo run:android
-```
-
-### Run on iOS (Simulator or Device, macOS only):
-```bash
-npx expo run:ios
-```
-
----
-
-## 🧪 Testing & Security Audit
-
-### Run All Unit & Integration Tests:
+### Run Automated Tests
 ```bash
 npm test
 ```
 
-### Run Automated Security & Compliance Audit:
+### Build Web Bundle & Sync Native Android
 ```bash
-npm run audit:security
+npm run build
+npx cap sync android
 ```
 
----
-
-## 📦 Building Native Packages (EAS Build)
-
-### Build Android APK (Preview/Testing):
+### Compile Release APK
 ```bash
-npx eas-cli build -p android --profile preview
+cd android
+JAVA_HOME="/Users/tarun/.jdk21/Contents/Home" ANDROID_HOME="/Users/tarun/android-sdk" ./gradlew assembleRelease
 ```
-
-### Build Android Production AAB (Google Play Store):
-```bash
-npx eas-cli build -p android --profile production
-```
-
-### Build iOS Production IPA (Apple App Store):
-```bash
-npx eas-cli build -p ios --profile production
-```
-
----
-
-## 📁 Project Architecture
-
-```
-popcix-mobile-app/
-├── __tests__/                  # Unit & Integration test suites
-│   ├── auth.test.ts
-│   ├── booking.test.ts
-│   ├── gamification.test.ts
-│   ├── rate-limiter.test.ts
-│   └── ai-assistant.test.ts
-├── scripts/
-│   └── security-audit.js      # Automated security & log exposure scanner
-├── src/
-│   ├── components/common/     # POPCIX Design System UI tokens & components
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   ├── Badge.tsx
-│   │   ├── ProgressBar.tsx
-│   │   ├── ConfettiCelebration.tsx
-│   │   ├── Mascot.tsx         # Original POPCIX Mascot vector art
-│   │   ├── ErrorState.tsx
-│   │   ├── EmptyState.tsx
-│   │   ├── Header.tsx
-│   │   └── DeviceFrame.tsx
-│   ├── context/               # Global state contexts
-│   │   ├── AuthContext.tsx    # Supabase Auth SDK integration
-│   │   ├── GamificationContext.tsx
-│   │   └── MarketplaceContext.tsx
-│   ├── data/
-│   │   └── mockMarketplaceData.ts
-│   ├── navigation/            # Bottom tabs & Root app router
-│   │   ├── AppNavigator.tsx
-│   │   └── BottomTabs.tsx
-│   ├── screens/               # App screens & modals
-│   │   ├── onboarding/
-│   │   ├── auth/
-│   │   ├── home/
-│   │   ├── explore/
-│   │   ├── service/
-│   │   ├── booking/
-│   │   ├── tracking/
-│   │   ├── rewards/
-│   │   ├── subscriptions/
-│   │   ├── bookings/
-│   │   ├── profile/
-│   │   └── ai/
-│   ├── server/
-│   │   └── rate-limiter.ts    # Rate limiting middleware
-│   ├── services/
-│   │   ├── supabase.ts        # Official Supabase client configuration
-│   │   ├── safeLogger.ts      # Structured sanitized logger
-│   │   ├── aiAssistant.ts     # Diagnostic AI engine
-│   │   └── gamification/
-│   ├── theme/                 # Colors, typography, spacing, and haptics
-│   ├── types/                 # Domain TypeScript interfaces
-│   ├── App.tsx
-│   └── main.tsx
-├── supabase/
-│   ├── schema.sql             # 22 database tables schema
-│   ├── rls.sql                # Row Level Security policies
-│   └── seed.sql               # Seed data for marketplace
-├── app.json                   # Native Expo/Android/iOS build configuration
-├── eas.json                   # EAS build profiles
-├── tailwind.config.js         # Design system tokens configuration
-└── tsconfig.json
-```
-
----
-
-## 🛡️ Security & Compliance Verification
-
-- **Supabase Auth**: Single source of truth for authentication.
-- **Zero Custom Password Hashes**: No custom password databases, MD5, SHA-1, or plain-text credentials.
-- **Safe Logging**: All logger inputs sanitized against credentials, tokens, passwords, and card information.
-- **Row Level Security**: Database users can only view and mutate their own bookings, profiles, and addresses.
-- **Rate Limiting**: Configured 10 req/IP/min with progressive delay backoff on sensitive endpoints.
-
----
-
-## 📄 License
-Private & Confidential — © 2026 POPCIX Technologies Inc. All rights reserved.
+Output APK is located at:
+`android/app/build/outputs/apk/release/app-release.apk`
+and copied to `release-apk/popcix-release.apk`.

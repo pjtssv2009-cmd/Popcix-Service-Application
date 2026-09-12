@@ -59,6 +59,7 @@ export async function initializeNativeApp() {
 export async function nativeHaptic(
   type: 'light' | 'medium' | 'heavy' | 'success' | 'warning' | 'error' | 'selection' = 'light'
 ) {
+
   if (isNative) {
     try {
       switch (type) {
@@ -119,6 +120,8 @@ export async function nativeHaptic(
     }
   }
 }
+
+export const triggerHaptic = nativeHaptic;
 
 /**
  * Get accurate current user location using GPS or Browser API
