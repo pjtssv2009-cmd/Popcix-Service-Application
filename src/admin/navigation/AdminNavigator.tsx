@@ -1,12 +1,14 @@
 /**
- * POPCIX ADMIN - Main Navigation & Layout Orchestrator
- * Desktop responsive container connecting sidebar, header, global command search, and operational screens.
+ * POPCIX ADMIN - Main Navigation & Layout Orchestrator with RBAC Protection
+ * Desktop responsive container connecting sidebar, header, global command search, and role-guarded screens.
  */
 
 import React, { useState } from 'react';
 import { POPCIXAdminSidebar, AdminTab } from '../components/POPCIXAdminSidebar';
 import { POPCIXAdminHeader } from '../components/POPCIXAdminHeader';
 import { POPCIXGlobalSearchModal } from '../components/POPCIXGlobalSearchModal';
+import { POPCIXAccessDeniedCard } from '../components/POPCIXAccessDeniedCard';
+import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminDashboardScreen } from '../screens/AdminDashboardScreen';
 import { AdminLiveOpsScreen } from '../screens/AdminLiveOpsScreen';
 import { AdminBookingsScreen } from '../screens/AdminBookingsScreen';
@@ -33,6 +35,11 @@ export function AdminNavigator({ onSwitchToProMobile }: AdminNavigatorProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
+  const { isTabAllowed } = useAdminAuth();
+
+  // Guard: Check if the current role is authorized for the active tab
+  const hasTabAccess = isTabAllowed(currentTab);
+
   return (
     <div className="flex h-screen w-screen bg-[#F7F7F4] text-[#111111] overflow-hidden font-sans select-none">
       {/* Desktop Navigation Sidebar */}
@@ -51,70 +58,79 @@ export function AdminNavigator({ onSwitchToProMobile }: AdminNavigatorProps) {
           onSwitchToProMobile={onSwitchToProMobile}
         />
 
-        {/* Dynamic Screen View */}
+        {/* Dynamic Screen View with RBAC Guard */}
         <main className="flex-1 overflow-y-auto">
-          {currentTab === 'dashboard' && (
-            <AdminDashboardScreen onNavigate={(tab) => setCurrentTab(tab)} />
-          )}
+          {!hasTabAccess ? (
+            <POPCIXAccessDeniedCard
+              attemptedTab={currentTab}
+              onNavigateHome={() => setCurrentTab('dashboard')}
+            />
+          ) : (
+            <>
+              {currentTab === 'dashboard' && (
+                <AdminDashboardScreen onNavigate={(tab) => setCurrentTab(tab)} />
+              )}
 
-          {currentTab === 'live-ops' && (
-            <AdminLiveOpsScreen />
-          )}
+              {currentTab === 'live-ops' && (
+                <AdminLiveOpsScreen />
+              )}
 
-          {currentTab === 'bookings' && (
-            <AdminBookingsScreen />
-          )}
+              {currentTab === 'bookings' && (
+                <AdminBookingsScreen />
+              )}
 
-          {currentTab === 'kyc' && (
-            <AdminKYCScreen />
-          )}
+              {currentTab === 'kyc' && (
+                <AdminKYCScreen />
+              )}
 
-          {currentTab === 'professionals' && (
-            <AdminProfessionalsScreen />
-          )}
+              {currentTab === 'professionals' && (
+                <AdminProfessionalsScreen />
+              )}
 
-          {currentTab === 'customers' && (
-            <AdminCustomersScreen />
-          )}
+              {currentTab === 'customers' && (
+                <AdminCustomersScreen />
+              )}
 
-          {currentTab === 'services' && (
-            <AdminServicesScreen />
-          )}
+              {currentTab === 'services' && (
+                <AdminServicesScreen />
+              )}
 
-          {currentTab === 'zones' && (
-            <AdminZonesScreen />
-          )}
+              {currentTab === 'zones' && (
+                <AdminZonesScreen />
+              )}
 
-          {(currentTab === 'payments' || currentTab === 'payouts' || currentTab === 'refunds') && (
-            <AdminFinanceScreen />
-          )}
+              {(currentTab === 'payments' || currentTab === 'payouts' || currentTab === 'refunds') && (
+                <AdminFinanceScreen />
+              )}
 
-          {(currentTab === 'support' || currentTab === 'disputes') && (
-            <AdminSupportScreen />
-          )}
+              {(currentTab === 'support' || currentTab === 'disputes') && (
+                <AdminSupportScreen />
+              )}
 
-          {currentTab === 'reviews' && (
-            <AdminReviewsScreen />
-          )}
+              {currentTab === 'reviews' && (
+                <AdminReviewsScreen />
+              )}
 
-          {currentTab === 'gamification' && (
-            <AdminGamificationScreen />
-          )}
+              {currentTab === 'gamification' && (
+                <AdminGamificationScreen />
+              )}
 
-          {currentTab === 'notifications' && (
-            <AdminNotificationsScreen />
-          )}
+              {currentTab === 'notifications' && (
+                <AdminNotificationsScreen />
+              )}
 
-          {currentTab === 'analytics' && (
-            <AdminAnalyticsScreen />
-          )}
+              {currentTab === 'analytics' && (
+                <AdminAnalyticsScreen />
+              )}
 
-          {currentTab === 'audit-logs' && (
-            <AdminAuditLogsScreen />
-          )}
+              {currentTab === 'audit-logs' && (
+                <AdminAuditLogsScreen />
+              )}
 
-          {(currentTab === 'feature-flags' || currentTab === 'settings') && (
-            <AdminSettingsScreen />
+              {(currentTab === 'feature-flags' || currentTab === 'settings') && (
+                <AdminSettingsScreen />
+              )}
+            </>
           )}
         </main>
       </div>

@@ -1,11 +1,11 @@
 /**
  * POPCIX ADMIN - Global Top Header Component
- * Displays greeting, global search (Cmd+K), operational alerts drawer, role switcher dropdown, and mode switch.
+ * Displays greeting, global search (Cmd+K), operational alerts drawer, role switcher dropdown, and feature scope.
  */
 
 import React, { useState } from 'react';
-import { Search, Bell, Shield, ChevronDown, RefreshCw, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { useAdminAuth } from '../context/AdminAuthContext';
+import { Search, Bell, Shield, ChevronDown, RefreshCw, AlertTriangle, CheckCircle2, Lock, Info, Check } from 'lucide-react';
+import { useAdminAuth, ROLE_METADATA } from '../context/AdminAuthContext';
 import { useAdminData } from '../context/AdminDataContext';
 import { AdminRole } from '../types/admin';
 
@@ -18,22 +18,14 @@ export function POPCIXAdminHeader({
   onOpenGlobalSearch,
   onSwitchToProMobile
 }: POPCIXAdminHeaderProps) {
-  const { adminUser, currentRole, setRole } = useAdminAuth();
+  const { adminUser, currentRole, currentRoleMetadata, setRole } = useAdminAuth();
   const { kycApplications, bookings, supportTickets } = useAdminData();
 
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
   const [showAlertDrawer, setShowAlertDrawer] = useState(false);
+  const [showFeatureScopeModal, setShowFeatureScopeModal] = useState(false);
 
-  const availableRoles: { role: AdminRole; label: string; desc: string }[] = [
-    { role: 'SUPER_ADMIN', label: 'Super Admin', desc: 'Unrestricted full platform access' },
-    { role: 'OPERATIONS_ADMIN', label: 'Operations Admin', desc: 'Live dispatch, bookings & zones' },
-    { role: 'KYC_ADMIN', label: 'KYC Admin', desc: 'Technician document verification' },
-    { role: 'CUSTOMER_SUPPORT', label: 'Customer Support', desc: 'Tickets & customer dispute triage' },
-    { role: 'FINANCE_ADMIN', label: 'Finance Admin', desc: 'Payments, payouts & refund approvals' },
-    { role: 'SERVICE_MANAGER', label: 'Service Manager', desc: 'Catalogue, checklist & pricing engine' },
-    { role: 'PROFESSIONAL_MANAGER', label: 'Pro Manager', desc: 'Partner growth, ratings & badges' },
-    { role: 'ANALYST', label: 'Analyst', desc: 'Read-only analytics & reporting' }
-  ];
+  const availableRoles = (Object.keys(ROLE_METADATA) as AdminRole[]).map(key => ROLE_METADATA[key]);
 
   // Calculate critical alerts
   const searchingCount = bookings.filter(b => b.status === 'SEARCHING').length;
@@ -72,21 +64,32 @@ export function POPCIXAdminHeader({
 
       {/* Right: Operational Controls & Role Switcher */}
       <div className="flex items-center gap-3">
-        {/* Role Switcher Pill */}
+        {/* Role Scope Pill with Features Count */}
+        <button
+          onClick={() => setShowFeatureScopeModal(true)}
+          className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#F8F8F5] border border-[#E5E5E0] text-xs font-bold text-[#333333] hover:bg-[#EBEBE6] transition-colors"
+          title="Inspect Role Feature Matrix"
+        >
+          <Info className="w-3.5 h-3.5 text-[#666666]" />
+          <span>{currentRoleMetadata.allowedTabs.length} Features Active</span>
+        </button>
+
+        {/* Role Switcher Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowRoleDropdown(!showRoleDropdown)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#F0FDF4] border border-[#86EFAC] text-xs font-bold text-[#065F46] hover:bg-[#DCFCE7] transition-all"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black text-white text-xs font-bold hover:bg-zinc-800 transition-all shadow-xs"
           >
-            <Shield className="w-3.5 h-3.5 text-[#047857]" />
-            <span>{availableRoles.find(r => r.role === currentRole)?.label}</span>
+            <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            <span>{currentRoleMetadata.label}</span>
             <ChevronDown className="w-3 h-3 opacity-60" />
           </button>
 
           {showRoleDropdown && (
-            <div className="absolute right-0 top-11 w-64 bg-white rounded-2xl border border-[#E5E5E0] shadow-2xl p-2 z-50 animate-fade-in space-y-1">
-              <div className="px-3 py-1.5 text-[10px] font-bold text-[#888888] uppercase tracking-wider">
-                Switch Admin Role (Testing RBAC)
+            <div className="absolute right-0 top-11 w-72 bg-white rounded-2xl border border-[#E5E5E0] shadow-2xl p-2 z-50 animate-fade-in space-y-1 max-h-96 overflow-y-auto">
+              <div className="px-3 py-1.5 text-[10px] font-bold text-[#888888] uppercase tracking-wider flex items-center justify-between">
+                <span>Switch Admin Role (RBAC)</span>
+                <span className="text-[9px] text-[#6B6B6B]">8 Roles</span>
               </div>
               {availableRoles.map(r => (
                 <button
@@ -99,13 +102,20 @@ export function POPCIXAdminHeader({
                     currentRole === r.role ? 'bg-black text-white font-bold' : 'hover:bg-[#F8F8F5] text-[#333333]'
                   }`}
                 >
-                  <div>
-                    <div className="font-semibold">{r.label}</div>
-                    <div className={`text-[10px] ${currentRole === r.role ? 'text-white/70' : 'text-[#6B6B6B]'}`}>
-                      {r.desc}
+                  <div className="pr-2">
+                    <div className="font-semibold flex items-center gap-1.5">
+                      <span>{r.label}</span>
+                      <span className={`text-[9px] px-1 py-0.2 rounded font-mono ${
+                        currentRole === r.role ? 'bg-white/20 text-white' : 'bg-[#EBEBE6] text-[#555555]'
+                      }`}>
+                        {r.allowedTabs.length} tabs
+                      </span>
+                    </div>
+                    <div className={`text-[10px] line-clamp-1 mt-0.5 ${currentRole === r.role ? 'text-white/70' : 'text-[#6B6B6B]'}`}>
+                      {r.description}
                     </div>
                   </div>
-                  {currentRole === r.role && <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
+                  {currentRole === r.role && <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-400" />}
                 </button>
               ))}
             </div>
@@ -172,11 +182,11 @@ export function POPCIXAdminHeader({
         {onSwitchToProMobile && (
           <button
             onClick={onSwitchToProMobile}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black text-white text-xs font-bold hover:bg-zinc-800 transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F8F8F5] border border-[#E5E5E0] text-black text-xs font-bold hover:bg-[#EBEBE6] transition-colors shadow-xs"
             title="Preview Mobile Partner Application"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">POPCIX PRO App</span>
+            <RefreshCw className="w-3.5 h-3.5 text-zinc-500" />
+            <span className="hidden sm:inline">PRO Mobile</span>
           </button>
         )}
 
@@ -187,6 +197,72 @@ export function POPCIXAdminHeader({
           className="w-8 h-8 rounded-xl object-cover border border-[#CCCCCC]"
         />
       </div>
+
+      {/* Role Feature Scope Modal */}
+      {showFeatureScopeModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl border border-[#E5E5E0] shadow-2xl max-w-2xl w-full p-6 space-y-5 animate-scale-up">
+            <div className="flex items-center justify-between pb-3 border-b border-[#F0F0EB]">
+              <div>
+                <div className="text-xs font-bold text-[#888888] uppercase tracking-wider">Role Capabilities Matrix</div>
+                <h3 className="text-lg font-black text-[#111111]">{currentRoleMetadata.label}</h3>
+              </div>
+              <span className={`px-2.5 py-1 rounded-lg text-xs font-black ${currentRoleMetadata.badgeColor}`}>
+                {currentRoleMetadata.badge}
+              </span>
+            </div>
+
+            <p className="text-xs text-[#555555] leading-relaxed">
+              {currentRoleMetadata.description}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-3.5 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0]">
+                <div className="text-xs font-bold text-[#166534] mb-2 flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-600" />
+                  <span>Key Assigned Capabilities ({currentRoleMetadata.keyCapabilities.length})</span>
+                </div>
+                <ul className="space-y-1.5 text-[11px] text-[#14532D]">
+                  {currentRoleMetadata.keyCapabilities.map((cap, i) => (
+                    <li key={i} className="flex items-start gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1 shrink-0" />
+                      <span>{cap}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#FEF2F2] border border-[#FECACA]">
+                <div className="text-xs font-bold text-[#991B1B] mb-2 flex items-center gap-1.5">
+                  <Lock className="w-4 h-4 text-[#DC2626]" />
+                  <span>Restricted Capabilities ({currentRoleMetadata.restrictedCapabilities.length})</span>
+                </div>
+                {currentRoleMetadata.restrictedCapabilities.length > 0 ? (
+                  <ul className="space-y-1.5 text-[11px] text-[#7F1D1D]">
+                    {currentRoleMetadata.restrictedCapabilities.map((cap, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444] mt-1 shrink-0" />
+                        <span>{cap}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-[11px] text-[#7F1D1D] italic">No restrictions. Unrestricted platform superuser.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setShowFeatureScopeModal(false)}
+                className="px-4 py-2 rounded-xl bg-black text-white text-xs font-bold hover:bg-zinc-800 transition-colors"
+              >
+                Close Matrix
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

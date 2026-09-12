@@ -13,6 +13,28 @@ export type AdminRole =
   | 'PROFESSIONAL_MANAGER'
   | 'ANALYST';
 
+export type AdminTab = 
+  | 'dashboard'
+  | 'live-ops'
+  | 'bookings'
+  | 'customers'
+  | 'professionals'
+  | 'kyc'
+  | 'services'
+  | 'zones'
+  | 'payments'
+  | 'payouts'
+  | 'refunds'
+  | 'support'
+  | 'disputes'
+  | 'reviews'
+  | 'gamification'
+  | 'notifications'
+  | 'analytics'
+  | 'audit-logs'
+  | 'feature-flags'
+  | 'settings';
+
 export type AdminPermission = 
   | 'MANAGE_USERS'
   | 'MANAGE_ROLES'
@@ -35,6 +57,20 @@ export type AdminPermission =
   | 'VIEW_ANALYTICS'
   | 'VIEW_AUDIT_LOGS'
   | 'TOGGLE_FEATURE_FLAGS';
+
+export interface RoleMetadata {
+  role: AdminRole;
+  label: string;
+  badge: string;
+  badgeColor: string;
+  department: string;
+  description: string;
+  primaryDomain: string;
+  allowedTabs: AdminTab[];
+  permissions: AdminPermission[];
+  keyCapabilities: string[];
+  restrictedCapabilities: string[];
+}
 
 export interface AdminUser {
   id: string;

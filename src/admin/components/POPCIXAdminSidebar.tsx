@@ -1,9 +1,9 @@
 /**
- * POPCIX ADMIN - Desktop Sidebar Navigation
- * Collapsible, structured into clear functional groups with real-time operational badge counts.
+ * POPCIX ADMIN - Desktop Sidebar Navigation with Role-Based Feature Filtering
+ * Dynamically displays features assigned to the active role with badge counts & domain indicators.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
   Radio, 
@@ -25,32 +25,15 @@ import {
   Sliders, 
   Layers,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Lock,
+  Filter,
+  Check
 } from 'lucide-react';
 import brandMonogram from '../../assets/branding/logo-dark-square.png';
 import { useAdminData } from '../context/AdminDataContext';
-
-export type AdminTab = 
-  | 'dashboard'
-  | 'live-ops'
-  | 'bookings'
-  | 'customers'
-  | 'professionals'
-  | 'kyc'
-  | 'services'
-  | 'zones'
-  | 'payments'
-  | 'payouts'
-  | 'refunds'
-  | 'support'
-  | 'disputes'
-  | 'reviews'
-  | 'gamification'
-  | 'notifications'
-  | 'analytics'
-  | 'audit-logs'
-  | 'feature-flags'
-  | 'settings';
+import { useAdminAuth } from '../context/AdminAuthContext';
+import { AdminTab } from '../types/admin';
 
 interface POPCIXAdminSidebarProps {
   currentTab: AdminTab;
@@ -66,6 +49,10 @@ export function POPCIXAdminSidebar({
   onToggleCollapse
 }: POPCIXAdminSidebarProps) {
   const { kycApplications, bookings, supportTickets, disputes, refunds } = useAdminData();
+  const { currentRole, currentRoleMetadata, isTabAllowed } = useAdminAuth();
+
+  // State to toggle between showing only role-assigned features vs all features
+  const [filterToAssignedOnly, setFilterToAssignedOnly] = useState(false);
 
   const pendingKycCount = kycApplications.filter(k => k.status === 'PENDING' || k.status === 'UNDER_REVIEW').length;
   const searchingBookingsCount = bookings.filter(b => b.status === 'SEARCHING' || b.status === 'PENDING').length;
@@ -73,7 +60,7 @@ export function POPCIXAdminSidebar({
   const openDisputesCount = disputes.filter(d => d.status !== 'RESOLVED').length;
   const requestedRefundsCount = refunds.filter(r => r.status === 'REQUESTED').length;
 
-  const navGroups: {
+  const rawNavGroups: {
     title: string;
     items: { key: AdminTab; label: string; icon: React.ReactNode; badge?: number; badgeColor?: string }[];
   }[] = [
@@ -124,6 +111,17 @@ export function POPCIXAdminSidebar({
     }
   ];
 
+  // Filter or decorate groups based on active role
+  const navGroups = rawNavGroups.map(group => {
+    const visibleItems = filterToAssignedOnly
+      ? group.items.filter(item => isTabAllowed(item.key))
+      : group.items;
+    return {
+      ...group,
+      items: visibleItems
+    };
+  }).filter(group => group.items.length > 0);
+
   return (
     <aside
       className={`bg-white border-r border-[#E5E5E0] flex flex-col transition-all duration-200 shrink-0 select-none ${
@@ -158,8 +156,40 @@ export function POPCIXAdminSidebar({
         </button>
       </div>
 
+      {/* Active Role Banner */}
+      {!collapsed && (
+        <div className="px-3 pt-3 pb-1">
+          <div className="p-2.5 rounded-xl bg-[#F8F8F5] border border-[#E5E5E0]">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] font-bold text-[#888888] uppercase tracking-wider">Active Role</span>
+              <span className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded ${currentRoleMetadata.badgeColor}`}>
+                {currentRoleMetadata.allowedTabs.length} Features
+              </span>
+            </div>
+            <div className="text-xs font-black text-[#111111] truncate">{currentRoleMetadata.label}</div>
+            <div className="text-[10px] text-[#6B6B6B] truncate mt-0.5">{currentRoleMetadata.primaryDomain}</div>
+
+            {/* Quick Toggle to Filter to Assigned Features Only */}
+            <button
+              onClick={() => setFilterToAssignedOnly(!filterToAssignedOnly)}
+              className={`w-full mt-2 py-1 px-2 rounded-lg text-[10px] font-bold flex items-center justify-between border transition-all ${
+                filterToAssignedOnly
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-[#555555] border-[#E5E5E0] hover:border-black hover:text-black'
+              }`}
+            >
+              <span className="flex items-center gap-1">
+                <Filter className="w-3 h-3" />
+                <span>Assigned Only</span>
+              </span>
+              {filterToAssignedOnly && <Check className="w-3 h-3 text-emerald-400" />}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Nav Items List */}
-      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
+      <div className="flex-1 overflow-y-auto py-2 px-2 space-y-4">
         {navGroups.map((group, gIdx) => (
           <div key={gIdx}>
             {!collapsed && (
@@ -170,20 +200,33 @@ export function POPCIXAdminSidebar({
             <div className="space-y-0.5">
               {group.items.map(item => {
                 const isActive = currentTab === item.key;
+                const isAllowed = isTabAllowed(item.key);
+
                 return (
                   <button
                     key={item.key}
                     onClick={() => onSelectTab(item.key)}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all relative ${
                       isActive
                         ? 'bg-black text-white shadow-xs'
-                        : 'text-[#555555] hover:bg-[#F8F8F5] hover:text-black'
+                        : isAllowed
+                        ? 'text-[#555555] hover:bg-[#F8F8F5] hover:text-black'
+                        : 'text-[#AAAAAA] hover:bg-[#FEF2F2] hover:text-[#DC2626] opacity-75'
                     }`}
-                    title={collapsed ? item.label : undefined}
+                    title={
+                      collapsed
+                        ? `${item.label}${!isAllowed ? ' (Restricted for ' + currentRole + ')' : ''}`
+                        : undefined
+                    }
                   >
                     <span className="shrink-0">{item.icon}</span>
                     {!collapsed && (
-                      <span className="flex-1 text-left truncate">{item.label}</span>
+                      <span className="flex-1 text-left truncate flex items-center gap-1.5">
+                        <span>{item.label}</span>
+                        {!isAllowed && (
+                          <Lock className="w-3 h-3 text-[#DC2626] shrink-0" title="Restricted Feature" />
+                        )}
+                      </span>
                     )}
                     {item.badge !== undefined && (
                       <span
@@ -208,10 +251,10 @@ export function POPCIXAdminSidebar({
       <div className="p-3 border-t border-[#E5E5E0] bg-[#F8F8F5]">
         {!collapsed ? (
           <div className="flex items-center justify-between text-[11px]">
-            <span className="text-[#6B6B6B]">Engine: v2.6.4</span>
+            <span className="text-[#6B6B6B]">RBAC: Active</span>
             <span className="inline-flex items-center gap-1 font-bold text-emerald-600">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Live Gateway
+              Secured
             </span>
           </div>
         ) : (
@@ -223,3 +266,4 @@ export function POPCIXAdminSidebar({
     </aside>
   );
 }
+export type { AdminTab };
