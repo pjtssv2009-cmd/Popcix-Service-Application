@@ -35,12 +35,35 @@ import { Mascot } from '../components/common/Mascot';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 
+import { registerBackButtonHandler } from '../services/nativeMobile';
+
 export const AppNavigator: React.FC = () => {
   const { user, profile } = useAuth();
-  const { activeTab, activeModal, openModal, closeModal } = useMarketplace();
+  const { activeTab, setActiveTab, activeModal, openModal, closeModal } = useMarketplace();
   const { celebration, closeCelebration } = useGamification();
 
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(true);
+
+  // Android Hardware Back Button handler
+  React.useEffect(() => {
+    const unregister = registerBackButtonHandler(() => {
+      if (celebration.isOpen) {
+        closeCelebration();
+        return true;
+      }
+      if (activeModal) {
+        closeModal();
+        return true;
+      }
+      if (activeTab !== 'home') {
+        setActiveTab('home');
+        return true;
+      }
+      return false; // Exit app
+    });
+
+    return unregister;
+  }, [celebration.isOpen, activeModal, activeTab, closeModal, closeCelebration, setActiveTab]);
 
   // If user is not yet through onboarding
   if (!hasCompletedOnboarding) {

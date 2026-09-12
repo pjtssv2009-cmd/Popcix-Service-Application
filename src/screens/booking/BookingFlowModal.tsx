@@ -29,7 +29,9 @@ import {
   Plus,
 } from 'lucide-react';
 import { triggerHaptic, playSoundEffect } from '../../theme/haptics';
+import { takeServicePhoto, sendLocalNotification } from '../../services/nativeMobile';
 import { BookingType, ServiceVariant } from '../../types/marketplace';
+import { Camera, Image as ImageIcon, Trash2 } from 'lucide-react';
 
 export const BookingFlowModal: React.FC = () => {
   const {
@@ -56,6 +58,27 @@ export const BookingFlowModal: React.FC = () => {
   const [couponMsg, setCouponMsg] = useState<{ text: string; isSuccess: boolean } | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [confirmedBookingResult, setConfirmedBookingResult] = useState<any>(null);
+  const [attachedPhotos, setAttachedPhotos] = useState<string[]>([]);
+  const [isCapturingPhoto, setIsCapturingPhoto] = useState<boolean>(false);
+
+  const handleCapturePhoto = async () => {
+    setIsCapturingPhoto(true);
+    triggerHaptic('medium');
+    try {
+      const photo = await takeServicePhoto();
+      if (photo) {
+        setAttachedPhotos(prev => [...prev, photo]);
+        triggerHaptic('success');
+      }
+    } finally {
+      setIsCapturingPhoto(false);
+    }
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    triggerHaptic('light');
+    setAttachedPhotos(prev => prev.filter((_, i) => i !== index));
+  };
 
   if (!bookingDraft.service) return null;
 
@@ -135,6 +158,12 @@ export const BookingFlowModal: React.FC = () => {
       setConfirmedBookingResult(booking);
       setIsProcessing(false);
       setBookingStep(8); // Step 8 Confirmation
+      triggerHaptic('success');
+      playSoundEffect('levelUp');
+      sendLocalNotification(
+        'POPCIX Pro Assigned! 🛠️',
+        `${booking.professional?.name || 'Your technician'} is on the way. ETA ~20 minutes.`
+      );
     } catch {
       setIsProcessing(false);
     }
@@ -201,6 +230,42 @@ export const BookingFlowModal: React.FC = () => {
                 <p className="text-xs text-[#444444] bg-[#F8F8F5] p-3 rounded-xl">
                   {bookingDraft.service.shortDescription}
                 </p>
+
+                {/* Real Device Photo Attachment */}
+                <div className="mt-4 pt-3 border-t border-[#EAEAE4]">
+                  <label className="block text-xs font-black text-[#111111] mb-1.5 flex items-center justify-between">
+                    <span>Attach Photo of the Issue (Optional)</span>
+                    <span className="text-[10px] text-[#6B6B6B] font-semibold">Camera / Gallery</span>
+                  </label>
+
+                  {/* Thumbnail gallery */}
+                  {attachedPhotos.length > 0 && (
+                    <div className="flex items-center gap-2 mb-2 overflow-x-auto pb-1">
+                      {attachedPhotos.map((photo, i) => (
+                        <div key={i} className="relative w-16 h-16 rounded-xl overflow-hidden border border-black/10 shrink-0">
+                          <img src={photo} alt="Issue" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => handleRemovePhoto(i)}
+                            className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-black"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleCapturePhoto}
+                    disabled={isCapturingPhoto}
+                    className="w-full py-2.5 px-3 rounded-2xl bg-[#F8F8F5] border border-dashed border-[#B0B0A8] text-black text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#EAEAE4] active:scale-[0.98] transition-all"
+                  >
+                    <Camera className="w-4 h-4 text-[#7C3AED]" />
+                    <span>{isCapturingPhoto ? 'Opening Camera...' : 'Take Photo with Device Camera'}</span>
+                  </button>
+                </div>
               </Card>
             </div>
           )}

@@ -156,26 +156,22 @@ export const LiveTrackingScreen: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      triggerHaptic('medium');
-                      alert(`Calling ${pro.name} at +91 98765 00000 (Secured Proxy Call)`);
-                    }}
+                  <a
+                    href="tel:+919876543210"
+                    onClick={() => triggerHaptic('medium')}
                     className="w-10 h-10 rounded-full bg-[#10B981] text-white flex items-center justify-center shadow-sm hover:scale-105 active:scale-95 transition-transform"
                     aria-label="Call Pro"
                   >
                     <Phone className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      triggerHaptic('light');
-                      alert(`Chat opened with ${pro.name}`);
-                    }}
-                    className="w-10 h-10 rounded-full bg-[#F1F1ED] text-black flex items-center justify-center hover:bg-[#EAEAE4]"
+                  </a>
+                  <a
+                    href="sms:+919876543210?body=Hi%20POPCIX%20Pro,%20I%20am%20tracking%20my%20service%20booking"
+                    onClick={() => triggerHaptic('light')}
+                    className="w-10 h-10 rounded-full bg-[#F1F1ED] text-black flex items-center justify-center hover:bg-[#EAEAE4] active:scale-95 transition-transform"
                     aria-label="Message Pro"
                   >
                     <MessageSquare className="w-4 h-4" />
-                  </button>
+                  </a>
                 </div>
               </div>
             </Card>

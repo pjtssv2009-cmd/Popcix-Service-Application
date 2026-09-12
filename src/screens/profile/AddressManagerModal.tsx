@@ -8,18 +8,35 @@ import { useMarketplace } from '../../context/MarketplaceContext';
 import { Button } from '../../components/common/Button';
 import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
-import { MapPin, Plus, Check, X, ArrowLeft, Home, Briefcase } from 'lucide-react';
+import { MapPin, Plus, Check, X, ArrowLeft, Home, Briefcase, Navigation, Loader2 } from 'lucide-react';
 import { triggerHaptic } from '../../theme/haptics';
+import { getCurrentUserLocation } from '../../services/nativeMobile';
 
 export const AddressManagerModal: React.FC = () => {
   const { addresses, addAddress, closeModal } = useMarketplace();
   const [isAddingNew, setIsAddingNew] = useState<boolean>(false);
+  const [isLocating, setIsLocating] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('Home');
   const [streetAddress, setStreetAddress] = useState<string>('');
   const [apartmentSuite, setApartmentSuite] = useState<string>('');
   const [city, setCity] = useState<string>('Bengaluru');
   const [postalCode, setPostalCode] = useState<string>('560038');
   const [instructions, setInstructions] = useState<string>('');
+
+  const handleUseCurrentGPS = async () => {
+    setIsLocating(true);
+    triggerHaptic('medium');
+    try {
+      const loc = await getCurrentUserLocation();
+      setStreetAddress(loc.address);
+      setCity(loc.city);
+      triggerHaptic('success');
+    } catch {
+      triggerHaptic('error');
+    } finally {
+      setIsLocating(false);
+    }
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,6 +114,21 @@ export const AddressManagerModal: React.FC = () => {
                   ))}
                 </div>
               </div>
+
+              {/* GPS Auto Detect Button */}
+              <button
+                type="button"
+                onClick={handleUseCurrentGPS}
+                disabled={isLocating}
+                className="w-full py-2.5 px-3 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] text-[#B45309] text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#FEF3C7] active:scale-[0.98] transition-all"
+              >
+                {isLocating ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Navigation className="w-4 h-4" />
+                )}
+                <span>{isLocating ? 'Detecting exact GPS...' : 'Use Current Device Location'}</span>
+              </button>
 
               <div>
                 <label className="block text-xs font-bold text-[#111111] mb-1">
