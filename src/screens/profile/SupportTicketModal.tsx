@@ -27,7 +27,7 @@ export const SupportTicketModal: React.FC = () => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="w-full max-w-md bg-[#F8F8F5] rounded-t-[36px] sm:rounded-[36px] border border-[#EAEAE4] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col animate-pop-in">
         {/* Header */}
-        <div className="bg-white px-5 py-3.5 border-b border-[#EAEAE4] flex items-center justify-between">
+        <div className="bg-white px-5 py-3.5 border-b border-[#EAEAE4] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <button
               onClick={() => {

@@ -57,8 +57,8 @@ export const ServiceDetailScreen: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="w-full max-w-lg bg-[#F8F8F5] rounded-t-[36px] sm:rounded-[36px] border border-[#EAEAE4] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col animate-pop-in">
-        {/* Sticky Header with Back & Actions */}
-        <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-5 py-3 border-b border-[#EAEAE4] flex items-center justify-between">
+        {/* Header with Back & Actions */}
+        <div className="bg-white px-5 py-3 border-b border-[#EAEAE4] flex items-center justify-between shrink-0">
           <button
             onClick={() => {
               triggerHaptic('light');

@@ -63,7 +63,7 @@ export const InstantBookingRadar: React.FC = () => {
         </div>
 
         {/* Content */}
-        <div className="p-5 overflow-y-auto space-y-5">
+        <div className="flex-1 p-5 overflow-y-auto space-y-5">
           {isScanning ? (
             /* Radar Scanning Animation */
             <div className="flex flex-col items-center justify-center py-12 text-center">

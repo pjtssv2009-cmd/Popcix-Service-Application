@@ -1,6 +1,7 @@
 /**
  * POPCIX In-App Splash Screen
  * Uses the official POPCIX brand logo and delivers an authentic, high-polish launch sequence.
+ * Supports instant tap-to-dismiss and fast auto-dismiss so it never blocks the user.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -16,28 +17,28 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Progress animation
+    // Fast progress animation
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        return prev + 10;
+        return prev + 25;
       });
-    }, 120);
+    }, 60);
 
     const pulseTimer = setTimeout(() => {
       setPhase('pulse');
-    }, 400);
+    }, 200);
 
     const exitTimer = setTimeout(() => {
       setPhase('exit');
-    }, 1800);
+    }, 850);
 
     const finishTimer = setTimeout(() => {
       onFinish();
-    }, 2200);
+    }, 1100);
 
     return () => {
       clearInterval(interval);
@@ -47,9 +48,18 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
     };
   }, [onFinish]);
 
+  const handleDismiss = () => {
+    setPhase('exit');
+    setTimeout(() => {
+      onFinish();
+    }, 150);
+  };
+
   return (
     <div
-      className={`fixed inset-0 z-[99999] bg-[#000000] flex flex-col items-center justify-between py-12 px-6 select-none transition-opacity duration-500 ${
+      onClick={handleDismiss}
+      onTouchStart={handleDismiss}
+      className={`fixed inset-0 z-[99999] bg-[#000000] flex flex-col items-center justify-between py-12 px-6 select-none cursor-pointer transition-opacity duration-300 ${
         phase === 'exit' ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
@@ -66,7 +76,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
           <div className="absolute -inset-10 bg-white/10 rounded-full blur-3xl animate-pulse" />
 
           {/* Official POPCIX Logo */}
-          <div className="relative w-48 h-48 rounded-3xl flex items-center justify-center">
+          <div className="relative w-44 h-44 rounded-3xl flex items-center justify-center">
             <img
               src={logoDarkSquare}
               alt="POPCIX"
@@ -86,7 +96,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         {/* Progress Bar */}
         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-white transition-all duration-150 rounded-full"
+            className="h-full bg-white transition-all duration-100 rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>

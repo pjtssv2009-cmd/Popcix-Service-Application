@@ -84,7 +84,7 @@ export const AppNavigator: React.FC = () => {
       <Header />
 
       {/* Main Tab Screen Content */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col pb-28">
         {activeTab === 'home' && <HomeScreen />}
         {activeTab === 'explore' && <ExploreScreen />}
         {activeTab === 'bookings' && <BookingsListScreen />}

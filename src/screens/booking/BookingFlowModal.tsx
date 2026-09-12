@@ -173,7 +173,7 @@ export const BookingFlowModal: React.FC = () => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="w-full max-w-lg bg-[#F8F8F5] rounded-t-[36px] sm:rounded-[36px] border border-[#EAEAE4] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col animate-pop-in">
         {/* Wizard Header & Step Progress */}
-        <div className="bg-white px-5 pt-4 pb-3 border-b border-[#EAEAE4] select-none">
+        <div className="bg-white px-5 pt-4 pb-3 border-b border-[#EAEAE4] select-none shrink-0">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={handleBack}
@@ -776,7 +776,7 @@ export const BookingFlowModal: React.FC = () => {
 
         {/* Wizard Footer Actions */}
         {bookingStep < 8 && (
-          <div className="bg-white border-t border-[#EAEAE4] p-4 px-5 flex items-center justify-between">
+          <div className="bg-white border-t border-[#EAEAE4] p-4 px-5 flex items-center justify-between shrink-0">
             <div>
               <span className="text-[11px] font-bold text-[#6B6B6B]">Estimated Total</span>
               <div className="text-lg font-black text-black">₹{totalAmount}</div>

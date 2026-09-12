@@ -80,7 +80,7 @@ export const AIAssistantModal: React.FC = () => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="w-full max-w-lg bg-[#F8F8F5] rounded-t-[36px] sm:rounded-[36px] border border-[#EAEAE4] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col animate-pop-in">
         {/* Header */}
-        <div className="bg-white px-5 py-3.5 border-b border-[#EAEAE4] flex items-center justify-between">
+        <div className="bg-white px-5 py-3.5 border-b border-[#EAEAE4] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-[#7C3AED] text-white flex items-center justify-center shadow-sm">
               <Sparkles className="w-5 h-5 text-[#FDE047]" />
@@ -198,7 +198,7 @@ export const AIAssistantModal: React.FC = () => {
         </div>
 
         {/* Quick Suggestion Pills */}
-        <div className="p-2.5 bg-white border-t border-[#EAEAE4] overflow-x-auto no-scrollbar flex items-center gap-1.5 select-none">
+        <div className="p-2.5 bg-white border-t border-[#EAEAE4] overflow-x-auto no-scrollbar flex items-center gap-1.5 select-none shrink-0">
           {quickPrompts.map((prompt, idx) => (
             <button
               key={idx}
@@ -211,7 +211,7 @@ export const AIAssistantModal: React.FC = () => {
         </div>
 
         {/* Chat Input Bar */}
-        <div className="bg-white p-3.5 border-t border-[#EAEAE4] flex items-center gap-2">
+        <div className="bg-white p-3.5 border-t border-[#EAEAE4] flex items-center gap-2 shrink-0">
           <input
             type="text"
             value={inputQuery}
