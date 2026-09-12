@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.popcix.customer',
-  appName: 'POPCIX',
+  appId: 'in.popcix.pro',
+  appName: 'POPCIX PRO',
   webDir: 'dist',
   plugins: {
     SplashScreen: {

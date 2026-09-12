@@ -1,7 +1,6 @@
 /**
- * POPCIX In-App Splash Screen
- * Uses the official POPCIX brand logo and delivers an authentic, high-polish launch sequence.
- * Supports instant tap-to-dismiss and fast auto-dismiss so it never blocks the user.
+ * POPCIX PRO In-App Splash Screen
+ * Professional launcher sequence with official brand monogram, high-speed progress, and pro tagline.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -64,30 +63,34 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
       }`}
     >
       {/* Top ambient badge */}
-      <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs font-semibold tracking-wider">
-        <Sparkles className="w-3.5 h-3.5 text-[#FFE600] animate-spin" style={{ animationDuration: '3s' }} />
-        <span>GAMIFIED HOME SERVICES</span>
+      <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs font-bold tracking-wider">
+        <Sparkles className="w-3.5 h-3.5 text-[#FFAA00] animate-spin" style={{ animationDuration: '3s' }} />
+        <span>POPCIX PRO PARTNER</span>
       </div>
 
       {/* Center Branding Monogram */}
       <div className="flex flex-col items-center text-center">
-        <div className="relative mb-6">
+        <div className="relative mb-4">
           {/* Ambient Glow */}
           <div className="absolute -inset-10 bg-white/10 rounded-full blur-3xl animate-pulse" />
 
           {/* Official POPCIX Logo */}
-          <div className="relative w-44 h-44 rounded-3xl flex items-center justify-center">
+          <div className="relative w-36 h-36 rounded-3xl flex items-center justify-center">
             <img
               src={logoDarkSquare}
-              alt="POPCIX"
+              alt="POPCIX PRO"
               className="w-full h-full object-contain rounded-3xl shadow-2xl"
             />
           </div>
         </div>
 
+        <h1 className="text-xl font-black text-white tracking-wider uppercase mb-1">
+          POPCIX <span className="text-[#FFAA00]">PRO</span>
+        </h1>
+
         {/* Tagline */}
-        <p className="text-xs font-bold tracking-[0.25em] text-[#A1A1AA] uppercase mt-2">
-          Your Home. Your Services. Your POPCIX.
+        <p className="text-xs font-bold tracking-[0.25em] text-[#A1A1AA] uppercase mt-1">
+          Work. Earn. Grow.
         </p>
       </div>
 
@@ -96,7 +99,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         {/* Progress Bar */}
         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-white transition-all duration-100 rounded-full"
+            className="h-full bg-[#FFAA00] transition-all duration-100 rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -104,7 +107,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         {/* Trust pill */}
         <div className="flex items-center gap-1.5 text-[11px] font-semibold text-white/50 tracking-wider">
           <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
-          <span>VERIFIED PROFESSIONALS • 100% SECURE</span>
+          <span>VERIFIED PROFESSIONALS • INSTANT SETTLEMENT</span>
         </div>
       </div>
     </div>

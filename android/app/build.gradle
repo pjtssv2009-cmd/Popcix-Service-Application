@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.popcix.customer"
+    namespace = "in.popcix.pro"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.popcix.customer"
+        applicationId "in.popcix.pro"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
