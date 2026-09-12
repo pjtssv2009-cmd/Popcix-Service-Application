@@ -1,6 +1,6 @@
 /**
  * POPCIX In-App Splash Screen
- * Delivers an authentic, high-polish brand launch sequence with smooth fade transitions.
+ * Uses the official POPCIX brand logo and delivers an authentic, high-polish launch sequence.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -60,37 +60,23 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
 
       {/* Center Branding Monogram */}
       <div className="flex flex-col items-center text-center">
-        <div className="relative mb-8">
+        <div className="relative mb-6">
           {/* Ambient Glow */}
-          <div className="absolute -inset-8 bg-gradient-to-tr from-[#FFE600]/20 to-[#FF9900]/20 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute -inset-10 bg-white/10 rounded-full blur-3xl animate-pulse" />
 
-          {/* Luxury POPCIX Monogram Icon */}
-          <div className="relative w-28 h-28 bg-[#111111] rounded-3xl border-2 border-white/15 flex items-center justify-center shadow-2xl shadow-black/80">
-            {/* Crest SVG */}
-            <svg width="68" height="68" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M50 15 L80 38 H20 Z" fill="url(#splashGrad)" />
-              <path d="M30 42 H70 V75 C70 82 60 88 50 90 C40 88 30 82 30 75 Z" fill="#FFFFFF" opacity="0.08" />
-              <path d="M38 38 H58 C64 38 68 42 68 48 C68 54 64 58 58 58 H46 V78 H38 V38 Z" fill="#FFFFFF" />
-              <path d="M46 44 H56 C59 44 61 46 61 48 C61 50 59 52 56 52 H46 V44 Z" fill="#000000" />
-              <polygon points="50,47 52,51 57,51 53,54 54,58 50,56 46,58 47,54 43,51 48,51" fill="url(#splashGrad)" />
-              <defs>
-                <linearGradient id="splashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFE600" />
-                  <stop offset="100%" stopColor="#FF9900" />
-                </linearGradient>
-              </defs>
-            </svg>
+          {/* Official POPCIX Logo */}
+          <div className="relative w-48 h-48 rounded-3xl flex items-center justify-center">
+            <img
+              src="/assets/branding/logo-dark-square.png"
+              alt="POPCIX"
+              className="w-full h-full object-contain rounded-3xl shadow-2xl"
+            />
           </div>
         </div>
 
-        {/* Brand Name */}
-        <h1 className="text-4xl font-black tracking-[0.25em] text-white mb-2 pl-2">
-          POPCIX
-        </h1>
-
         {/* Tagline */}
-        <p className="text-xs font-bold tracking-[0.2em] text-[#A1A1AA] uppercase">
-          Everything Your Home Needs
+        <p className="text-xs font-bold tracking-[0.25em] text-[#A1A1AA] uppercase mt-2">
+          Your Home. Your Services. Your POPCIX.
         </p>
       </div>
 
@@ -99,7 +85,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         {/* Progress Bar */}
         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-[#FFE600] to-[#FF9900] transition-all duration-150 rounded-full"
+            className="h-full bg-white transition-all duration-150 rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>

@@ -66,7 +66,12 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onClose, onOpenSignI
         {/* Content */}
         <div className="p-6 pt-2">
           <div className="flex flex-col items-center text-center mb-5">
-            <Mascot mood="superhero" size={85} className="mb-2" />
+            <img
+              src="/assets/branding/logo-light-horizontal.png"
+              alt="POPCIX"
+              className="h-9 object-contain mb-3"
+            />
+            <Mascot mood="superhero" size={75} className="mb-2" />
             <h2 className="text-2xl font-black text-[#111111] tracking-tight">
               Join POPCIX
             </h2>

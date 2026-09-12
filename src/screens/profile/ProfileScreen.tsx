@@ -249,9 +249,16 @@ export const ProfileScreen: React.FC = () => {
           Sign Out of POPCIX
         </Button>
 
-        <p className="text-[10px] text-center text-[#8E8E8E] font-medium mt-3">
-          POPCIX Version 1.0.0 (Production Cross-Platform) • Powered by Supabase Auth
-        </p>
+        <div className="flex flex-col items-center mt-4 mb-2">
+          <img
+            src="/assets/branding/logo-light-horizontal.png"
+            alt="POPCIX"
+            className="h-6 object-contain opacity-70 mb-1"
+          />
+          <p className="text-[10px] text-center text-[#8E8E8E] font-medium">
+            POPCIX Version 1.0.0 (Production Mobile) • Powered by Supabase
+          </p>
+        </div>
       </div>
     </div>
   );

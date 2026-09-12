@@ -76,7 +76,12 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
         {/* Content */}
         <div className="p-6 pt-2">
           <div className="flex flex-col items-center text-center mb-6">
-            <Mascot mood="happy" size={90} className="mb-2" />
+            <img
+              src="/assets/branding/logo-light-horizontal.png"
+              alt="POPCIX"
+              className="h-9 object-contain mb-3"
+            />
+            <Mascot mood="happy" size={80} className="mb-2" />
             <h2 className="text-2xl font-black text-[#111111] tracking-tight">
               Welcome Back!
             </h2>
