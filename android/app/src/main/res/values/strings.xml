@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">POPCIX</string>
+    <string name="title_activity_main">POPCIX</string>
+    <string name="package_name">com.popcix.customer</string>
+    <string name="custom_url_scheme">com.popcix.customer</string>
+</resources>
