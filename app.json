@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "POPCIX",
+    "slug": "popcix-customer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "popcix",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F8F8F5"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.popcix.customer",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "POPCIX uses your location to discover nearby verified home service professionals and track service arrivals.",
+        "NSCameraUsageDescription": "POPCIX uses your camera to upload photos for service requests and reviews.",
+        "NSPhotoLibraryUsageDescription": "POPCIX allows you to select photos from your library for service queries and reviews."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.popcix.customer",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "VIBRATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-secure-store",
+      "expo-location"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "popcix-customer-app"
+      }
+    }
+  }
+}
