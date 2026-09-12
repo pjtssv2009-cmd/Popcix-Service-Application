@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Sparkles, ShieldCheck } from 'lucide-react';
+import logoDarkSquare from '../../assets/branding/logo-dark-square.png';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -67,7 +68,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
           {/* Official POPCIX Logo */}
           <div className="relative w-48 h-48 rounded-3xl flex items-center justify-center">
             <img
-              src="/assets/branding/logo-dark-square.png"
+              src={logoDarkSquare}
               alt="POPCIX"
               className="w-full h-full object-contain rounded-3xl shadow-2xl"
             />

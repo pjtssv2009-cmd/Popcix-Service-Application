@@ -27,6 +27,7 @@ import {
   Flame,
 } from 'lucide-react';
 import { triggerHaptic, playSoundEffect } from '../../theme/haptics';
+import logoLightHoriz from '../../assets/branding/logo-light-horizontal.png';
 
 export const ProfileScreen: React.FC = () => {
   const { profile, signOut, isDemoMode, toggleDemoMode } = useAuth();
@@ -251,7 +252,7 @@ export const ProfileScreen: React.FC = () => {
 
         <div className="flex flex-col items-center mt-4 mb-2">
           <img
-            src="/assets/branding/logo-light-horizontal.png"
+            src={logoLightHoriz}
             alt="POPCIX"
             className="h-6 object-contain opacity-70 mb-1"
           />

@@ -9,6 +9,7 @@ import { Button } from '../../components/common/Button';
 import { Mascot } from '../../components/common/Mascot';
 import { Mail, Lock, User, AlertCircle, ArrowLeft, Gift } from 'lucide-react';
 import { triggerHaptic } from '../../theme/haptics';
+import logoLightHoriz from '../../assets/branding/logo-light-horizontal.png';
 
 interface SignUpScreenProps {
   onClose: () => void;
@@ -67,7 +68,7 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onClose, onOpenSignI
         <div className="p-6 pt-2">
           <div className="flex flex-col items-center text-center mb-5">
             <img
-              src="/assets/branding/logo-light-horizontal.png"
+              src={logoLightHoriz}
               alt="POPCIX"
               className="h-9 object-contain mb-3"
             />
